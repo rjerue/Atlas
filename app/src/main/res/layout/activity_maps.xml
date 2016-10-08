@@ -30,8 +30,8 @@
         android:layout_weight="0.34" />
 
     <ImageView
-        android:layout_width="348dp"
-        android:layout_height="294dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:srcCompat="@drawable/cast_album_art_placeholder"
         android:id="@+id/imageView" />
 

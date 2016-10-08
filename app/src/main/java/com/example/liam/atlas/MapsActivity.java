@@ -32,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //private Button cameraButton;
     private ImageView mImageView;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    Location currentLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         mLocationProvider = new LocationProvider(this, this);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
@@ -65,12 +65,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-
-
-        //    LatLng sydney = new LatLng(-34, 151);
-        //   mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     @Override
@@ -86,15 +80,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void handleNewLocation(Location location) {
-
-        //LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        //   Criteria criteria = new Criteria();
-        //  criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
-
-        //  Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria,false));
         if (location != null)
         {
+            currentLocation = location;
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
@@ -140,8 +128,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            //ActivityCompat.requestPermissions(this,
-                    //new String[]{"android.permission.CAMERA"}, REQUEST_IMAGE_CAPTURE);
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -151,13 +137,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
-            //mImageView.setVisibility(View.VISIBLE);
-
-        }
+            Coordinate c = new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), imageBitmap);
+            MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()));
+            mMap.addMarker(m);
+            m.title("HELLO IMAGE");
+            m.visible(true);
+            //mImageView.setImageBitmap(imageBitmap);
+         }
     }
-
-
-
 
 }
