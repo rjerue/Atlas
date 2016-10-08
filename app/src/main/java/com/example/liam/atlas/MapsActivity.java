@@ -16,11 +16,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.content.Intent;
 import android.view.View;
 import android.provider.MediaStore;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import static com.example.liam.atlas.R.id.map;
@@ -65,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        
+        mMap.setInfoWindowAdapter(new MapItemAdapter(this));
     }
 
     @Override
@@ -88,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                    .zoom(5)                   // Sets the zoom
+                    .zoom(20)                   // Sets the zoom
                    // .bearing(90)                // Sets the orientation of the camera to east
                     .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
@@ -139,11 +141,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Coordinate c = new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), imageBitmap);
-            MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude()+2,currentLocation.getLongitude())).title("HELLO IMAGE");
-            mMap.addMarker(m);
-            m.visible(true);
-            mImageView.setImageBitmap(imageBitmap);
+            Marker m;
+            m = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
+            );
+            m.setTag(imageBitmap);
+            //MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude()+2,currentLocation.getLongitude())).title("HELLO IMAGE");
+            //mMap.addMarker(m);
+            //m.visible(true);
+            //mImageView.setImageBitmap(imageBitmap);
          }
     }
-
 }
