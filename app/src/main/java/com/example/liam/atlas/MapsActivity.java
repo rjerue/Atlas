@@ -65,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        
     }
 
     @Override
@@ -138,11 +139,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Coordinate c = new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), imageBitmap);
-            MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()));
+            MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude()+2,currentLocation.getLongitude())).title("HELLO IMAGE");
             mMap.addMarker(m);
-            m.title("HELLO IMAGE");
             m.visible(true);
-            //mImageView.setImageBitmap(imageBitmap);
+            mImageView.setImageBitmap(imageBitmap);
          }
     }
 
