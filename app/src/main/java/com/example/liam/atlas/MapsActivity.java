@@ -142,8 +142,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             Coordinate c = new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), imageBitmap);
             Marker m;
-            m = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
+            m = mMap.setInfoWindowAdapter(this).addMarker(new MarkerOptions()
+                .position(new LatLng(currentLocation.getLatitude() +0.001 , currentLocation.getLongitude()))
             );
             m.setTag(imageBitmap);
             //MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude()+2,currentLocation.getLongitude())).title("HELLO IMAGE");
