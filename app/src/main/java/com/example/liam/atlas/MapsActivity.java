@@ -5,11 +5,19 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.content.pm.PackageInfo;
 import android.graphics.Bitmap;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,16 +27,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.content.Intent;
-import android.view.View;
 import android.provider.MediaStore;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 import static com.example.liam.atlas.R.id.map;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationProvider.LocationCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationProvider.LocationCallback {
 
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
@@ -36,6 +42,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ImageView mImageView;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     Location currentLocation = null;
+
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
+
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +60,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     1);
         }
         super.onCreate(savedInstanceState);
+
         mLocationProvider = new LocationProvider(this, this);
+
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFragment.getMapAsync(this);
-        mImageView = (ImageView) findViewById(R.id.imageView);
 
         ImageButton imgbtnZoom = (ImageButton) findViewById(R.id.zoomButton);
         imgbtnZoom.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +82,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.zoomOut());
             }
         });
+
+
+        mDrawerList = (ListView)findViewById(R.id.navList);
+        addDrawerItems();
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mActivityTitle = getTitle().toString();
+        SetupDrawer();
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+    }
+    /*
+    TODO: Add Documentation and make this contain menu items
+     */
+    private void addDrawerItems() {
+        String[] osArray = { "Android", "iOS", "Windows", "OS X", "Linux" };
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        mDrawerList.setAdapter(mAdapter);
     }
 
+    private void SetupDrawer() {
+       // Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+     //   mDrawerArrow = new DrawerArrowDrawable(this);
+
+
+        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout ,
+                R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+              //  getSupportActionBar().setTitle("Navigation!");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+           //     getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerToggle.syncState();
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+    }
 
     /**
      * Manipulates the map once available.
@@ -167,5 +230,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             m.setTag(imageBitmap);
             mMap.setInfoWindowAdapter(new MapItemAdapter(this));
          }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+        // Activate the navigation drawer toggle
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
