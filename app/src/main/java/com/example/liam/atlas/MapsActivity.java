@@ -114,7 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .tilt(40)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("You are here"));
+          //  mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),location.getLongitude())).title("You are here"));
         }
     }
 
@@ -162,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Coordinate c = new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), imageBitmap);
             Marker m;
             m = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(currentLocation.getLatitude() +0.001 , currentLocation.getLongitude()))
+                .position(new LatLng(currentLocation.getLatitude() , currentLocation.getLongitude()))
             );
             m.setTag(imageBitmap);
             mMap.setInfoWindowAdapter(new MapItemAdapter(this));
