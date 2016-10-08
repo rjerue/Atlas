@@ -23,6 +23,10 @@ public class MapItemAdapter implements GoogleMap.InfoWindowAdapter {
         tv = new ImageView(context);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         tv.setLayoutParams(lp);
+        tv.setMinimumWidth(900);
+        tv.setMinimumHeight(900);
+        //tv.setMaxWidth(500);
+        //tv.setMaxHeight(500);
         //tv.setForegroundGravity(Gravity.CENTER);
     }
 
