@@ -1,25 +1,29 @@
 package com.example.liam.atlas;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
+import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
+import android.provider.MediaStore;
+import android.widget.ImageView;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Button cameraButton;
-    private Camera camera;
+    //private Button cameraButton;
+    private ImageView mImageView;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        mImageView = (ImageView) findViewById(R.id.imageView);
     }
 
 
@@ -52,30 +57,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void cameraButtonClick(View view){
-        if(checkForCamera(getApplicationContext())){
-
+        if (this.hasPermissionInManifest(this, "android.permission.CAMERA"))
+            dispatchTakePictureIntent();
+        else{
+            System.out.println("poop");
+            dispatchTakePictureIntent();
         }
     }
 
-
-    public static Camera getCameraInstance(){
-        Camera c = null;
+    public boolean hasPermissionInManifest(Context context, String permissionName) {
+        final String packageName = context.getPackageName();
         try {
-            c = Camera.open(); // attempt to get a Camera instance
+            final PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
+            final String[] declaredPermissions = packageInfo.requestedPermissions;
+            if (declaredPermissions != null && declaredPermissions.length > 0) {
+                for (String p : declaredPermissions) {
+                    System.out.println("Permission " + p);
+                    if (p.equals(permissionName)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.print(e.toString());
         }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
-        }
-        return c; // returns null if camera is unavailable
+        return false;
     }
 
-    private static boolean checkForCamera(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            //ActivityCompat.requestPermissions(this,
+                    //new String[]{"android.permission.CAMERA"}, REQUEST_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            mImageView.setImageBitmap(imageBitmap);
+            //mImageView.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+
+
+
 }
