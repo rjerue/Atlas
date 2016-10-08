@@ -22,7 +22,7 @@
         android:text="Take Picture"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="top|right"
+        android:layout_gravity="bottom|right"
         android:id="@+id/cameraButton"
         android:visibility="visible"
         android:elevation="0dp"
@@ -35,5 +35,30 @@
         app:srcCompat="@drawable/cast_album_art_placeholder"
         android:id="@+id/imageView" />
 
+
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="58dp"
+    android:layout_height="116dp"
+    android:layout_gravity="top|right">
+    <ImageButton
+        android:id="@+id/zoomButton"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:background="@drawable/ic_add"
+        android:scaleType="fitXY"
+        />
+
+    <ImageButton
+        android:id="@+id/unzoomButton"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_remove"
+        android:scaleType="fitXY"
+        />
+</LinearLayout>
 
 </FrameLayout>

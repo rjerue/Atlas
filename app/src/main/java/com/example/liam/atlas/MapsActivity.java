@@ -21,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.content.Intent;
 import android.view.View;
 import android.provider.MediaStore;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -52,6 +53,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);
         mImageView = (ImageView) findViewById(R.id.imageView);
+
+        ImageButton imgbtnZoom = (ImageButton) findViewById(R.id.zoomButton);
+        imgbtnZoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.zoomIn());
+            }
+        });
+
+        ImageButton imgbtnUnzoom = (ImageButton) findViewById(R.id.unzoomButton);
+        imgbtnUnzoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.animateCamera(CameraUpdateFactory.zoomOut());
+            }
+        });
     }
 
 
@@ -69,6 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
         mMap.getUiSettings().setZoomControlsEnabled(true);
+
     }
 
     @Override
