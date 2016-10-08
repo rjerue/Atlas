@@ -166,10 +166,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
             m.setTag(imageBitmap);
             mMap.setInfoWindowAdapter(new MapItemAdapter(this));
-            //MarkerOptions m = new MarkerOptions().position(new LatLng(currentLocation.getLatitude()+2,currentLocation.getLongitude())).title("HELLO IMAGE");
-            //mMap.addMarker(m);
-            //m.visible(true);
-            //mImageView.setImageBitmap(imageBitmap);
          }
     }
 }
