@@ -12,7 +12,8 @@ import java.util.ArrayList;
  * Created by Sahil on 10/8/2016.
  */
 public class CoordinateServerClient {
-    private static final String serverHostname = new String ("127.0.0.1");
+    private static final String serverHostname = new String ("127.0.0.1");//TODO ADD REAL SERVER ADRESS
+    private static final int serverPort = 10008;
     private static final String SendCoordinateMessage = "request";
 
 
@@ -23,7 +24,7 @@ public class CoordinateServerClient {
         BufferedReader in = null;
 
         try {
-            echoSocket = new Socket(serverHostname, 10008);
+            echoSocket = new Socket(serverHostname, serverPort);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(
                     echoSocket.getInputStream()));
@@ -53,7 +54,7 @@ public class CoordinateServerClient {
         BufferedReader in = null;
 
         try {
-            echoSocket = new Socket(serverHostname, 10008);
+            echoSocket = new Socket(serverHostname, serverPort);
             out = new PrintWriter(echoSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(
                     echoSocket.getInputStream()));
