@@ -22,7 +22,7 @@
         android:text="Take Picture"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="top|right"
         android:id="@+id/cameraButton"
         android:visibility="visible"
         android:elevation="0dp"

@@ -68,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
     @Override
