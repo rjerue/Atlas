@@ -16,12 +16,13 @@
         />
 
     <Button
+        android:onClick="cameraButtonClick"
         android:background="@drawable/roundbutton"
         android:text="Take Picture"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="bottom|right"
-        android:id="@+id/button2"
+        android:id="@+id/cameraButton"
         android:visibility="visible"
         android:elevation="0dp"
         style="@style/Widget.AppCompat.Button.Colored"
