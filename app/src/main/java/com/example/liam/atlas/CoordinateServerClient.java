@@ -52,8 +52,7 @@ public class CoordinateServerClient {
         for (String coordinateString :
              serverMessage.split("~")) {
             String[] coordinateComponents = coordinateString.split(",");
-            Coordinate coordinate = new Coordinate(Double.parseDouble(coordinateComponents[0]),Double.parseDouble(coordinateComponents[1]),null);
-
+            Coordinate coordinate = new Coordinate(Double.parseDouble(coordinateComponents[0]),Double.parseDouble(coordinateComponents[1]),Utilities.StringToBitMap(coordinateComponents[2]));
             Coordinates.add(coordinate);
 
         }
