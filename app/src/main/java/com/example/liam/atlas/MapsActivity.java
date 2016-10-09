@@ -167,22 +167,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        try {
-            ArrayList<Coordinate> coordinates = CoordinateServerClient.ReceiveData();
-            for (Coordinate coordinate : coordinates) {
-                Marker m;
-                m = mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(coordinate.getX(), coordinate.getY()))
-                );
-                m.setTag(coordinate.getImage());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        GetPinsFromServer();
     }
 
     @Override
@@ -233,15 +218,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void refreshMapClick(View view){
-        try {
-            CoordinateServerClient.ReceiveData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        GetPinsFromServer();
     }
 
     public void cameraButtonClick(View view){
@@ -250,6 +227,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             dispatchTakePictureIntent();
         else{
             dispatchTakePictureIntent();
+        }
+    }
+
+    public void GetPinsFromServer(){
+        ArrayList<Coordinate> coordinates = null;
+        try {
+            coordinates = CoordinateServerClient.ReceiveData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (Coordinate coordinate : coordinates) {
+            Marker m;
+            m = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(coordinate.getX(), coordinate.getY()))
+            );
+            m.setTag(coordinate.getImage());
         }
     }
 
