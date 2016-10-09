@@ -42,16 +42,16 @@
                 android:layout_gravity="top|right"
                 android:orientation="vertical">
                 <ImageButton
-                    android:id="@+id/unzoomButton"
-                    android:layout_width="58dp"
-                    android:layout_height="59dp"
-                    android:background="@drawable/ic_remove"
-                    android:scaleType="fitXY" />
-                <ImageButton
                     android:id="@+id/zoomButton"
                     android:layout_width="58dp"
                     android:layout_height="58dp"
                     android:background="@drawable/ic_add"
+                    android:scaleType="fitXY" />
+                <ImageButton
+                    android:id="@+id/unzoomButton"
+                    android:layout_width="58dp"
+                    android:layout_height="59dp"
+                    android:background="@drawable/ic_remove"
                     android:scaleType="fitXY" />
                 <ImageButton
                     android:id="@+id/refreshButton"
@@ -60,7 +60,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/ic_cached_black_24dp"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:onClick="refreshMapClick" />
             </LinearLayout>
 
         </FrameLayout>

@@ -214,7 +214,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void refreshMapClick(View view){
-        onMapReady(mMap);
+        try {
+            ArrayList<Coordinate> coordinates = CoordinateServerClient.ReceiveData();
+            for (Coordinate coordinate : coordinates) {
+                Marker m;
+                m = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(coordinate.getX(), coordinate.getY()))
+                );
+                m.setTag(coordinate.getImage());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void cameraButtonClick(View view){
@@ -222,7 +237,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (this.hasPermissionInManifest(this, "android.permission.CAMERA"))
             dispatchTakePictureIntent();
         else{
-            //System.out.println("poop");
             dispatchTakePictureIntent();
         }
     }
