@@ -18,7 +18,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.Marker;
 
 /**
- * Created by benjakuben on 12/17/14.
+ * Created by Ryan on 11/9/16.
  */
 public class PinLocationProvider implements
         GoogleApiClient.ConnectionCallbacks,

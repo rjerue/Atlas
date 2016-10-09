@@ -12,7 +12,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 /**
- * Created by Liam on 10/8/2016.
+ * Created by Ryan on 10/8/2016.
  */
 
 public class MapItemAdapter implements GoogleMap.InfoWindowAdapter {
