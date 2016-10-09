@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +32,10 @@ import android.provider.MediaStore;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.liam.atlas.R.id.map;
 
@@ -162,6 +167,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
+        try {
+            ArrayList<Coordinate> coordinates = CoordinateServerClient.ReceiveData();
+            for (Coordinate coordinate : coordinates) {
+                Marker m;
+                m = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(coordinate.getX(), coordinate.getY()))
+                );
+                m.setTag(coordinate.getImage());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -194,6 +216,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void cameraButtonClick(View view){
+        mLocationProvider.connect();
         if (this.hasPermissionInManifest(this, "android.permission.CAMERA"))
             dispatchTakePictureIntent();
         else{
@@ -241,7 +264,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             );
             m.setTag(imageBitmap);
             mMap.setInfoWindowAdapter(new MapItemAdapter(this));
-         }
+            try {
+                CoordinateServerClient.SendMessage(c);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("UGH");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
