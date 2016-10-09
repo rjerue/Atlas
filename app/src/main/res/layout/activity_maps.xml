@@ -7,7 +7,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -27,32 +26,23 @@
             <Button
                 android:id="@+id/cameraButton"
                 style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:layout_height="88dp"
                 android:layout_gravity="bottom|right"
                 android:layout_weight="0.34"
                 android:background="@drawable/roundbutton"
                 android:elevation="0dp"
                 android:onClick="cameraButtonClick"
-                android:text="Take Picture"
+                android:text="Take\nPicture"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="58dp"
                 android:visibility="visible" />
             <LinearLayout
                 android:layout_width="58dp"
                 android:layout_height="174dp"
                 android:layout_gravity="top|right"
                 android:orientation="vertical">
-                <ImageButton
-                    android:id="@+id/zoomButton"
-                    android:layout_width="58dp"
-                    android:layout_height="58dp"
-                    android:background="@drawable/ic_add"
-                    android:scaleType="fitXY" />
-                <ImageButton
-                    android:id="@+id/unzoomButton"
-                    android:layout_width="58dp"
-                    android:layout_height="59dp"
-                    android:background="@drawable/ic_remove"
-                    android:scaleType="fitXY" />
+
                 <ImageButton
                     android:id="@+id/refreshButton"
                     android:layout_width="58dp"
@@ -63,7 +53,6 @@
                     android:scaleType="fitXY"
                     android:onClick="refreshMapClick" />
             </LinearLayout>
-
         </FrameLayout>
     </RelativeLayout>
     <ListView

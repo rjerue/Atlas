@@ -70,9 +70,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFragment.getMapAsync(this);
 
-        SetupZoomButtons();
-
-
         mDrawerList = (ListView)findViewById(R.id.navList);
         addDrawerItems();
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -96,29 +93,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void SetupZoomButtons() {
-        ImageButton imgbtnZoom = (ImageButton) findViewById(R.id.zoomButton);
-        imgbtnZoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.zoomIn());
-            }
-        });
-
-        ImageButton imgbtnUnzoom = (ImageButton) findViewById(R.id.unzoomButton);
-        imgbtnUnzoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.zoomOut());
-            }
-        });
-    }
-
     /*
     TODO: Add Documentation and make this contain menu items
      */
     private void addDrawerItems() {
-        String[] osArray = { "This", "is", "to", "be", "determined" };
+        String[] osArray = {"Local", "Friends Markers", "Attractions", "Restaurants", "Your Markers", "Settings",};
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
     }
@@ -167,6 +146,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         try {
             ArrayList<Coordinate> coordinates = CoordinateServerClient.ReceiveData();
             for (Coordinate coordinate : coordinates) {
