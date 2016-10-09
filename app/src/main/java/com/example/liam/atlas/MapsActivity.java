@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -215,19 +216,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void refreshMapClick(View view){
         try {
-            ArrayList<Coordinate> coordinates = CoordinateServerClient.ReceiveData();
-            for (Coordinate coordinate : coordinates) {
-                Marker m;
-                m = mMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(coordinate.getX(), coordinate.getY()))
-                );
-                m.setTag(coordinate.getImage());
-            }
+            CoordinateServerClient.ReceiveData();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
             e.printStackTrace();
         }
     }
