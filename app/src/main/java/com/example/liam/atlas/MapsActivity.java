@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.example.liam.atlas.R.id.map;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationProvider.LocationCallback {
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, LocationProvider.LocationCallback, PinLocationProvider.PinCallback {
 
     private GoogleMap mMap;
     private LocationProvider mLocationProvider;
@@ -196,6 +196,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationProvider.disconnect();
 
     }
+    public void handleNewPin(Location location, Bitmap bitmap){
+        currentLocation = location;
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(currentLocation.getLatitude() , currentLocation.getLongitude()))
+        );
+        marker.setTag(bitmap);
+        mMap.setInfoWindowAdapter(new MapItemAdapter(this));
+        try {
+            CoordinateServerClient.SendMessage(new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(),bitmap));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("UGH");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void handleNewLocation(Location location) {
         if (location != null)
@@ -267,23 +285,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Coordinate c = new Coordinate(currentLocation.getLatitude(), currentLocation.getLongitude(), imageBitmap);
-            Marker m;
-            m = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(currentLocation.getLatitude() , currentLocation.getLongitude()))
-            );
-            m.setTag(imageBitmap);
-            mMap.setInfoWindowAdapter(new MapItemAdapter(this));
-            try {
-                CoordinateServerClient.SendMessage(c);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("UGH");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
+            new PinLocationProvider(this, this, imageBitmap).connect();
         }
     }
 
