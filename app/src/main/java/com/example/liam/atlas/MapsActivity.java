@@ -144,6 +144,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
         mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         GetPinsFromServer();
     }
 
