@@ -161,7 +161,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         mMap.setInfoWindowAdapter(new MapItemAdapter(this));
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
     }
 
     @Override
@@ -194,7 +193,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void refreshMapClick(View view){
-        
+        onMapReady(mMap);
     }
 
     public void cameraButtonClick(View view){
