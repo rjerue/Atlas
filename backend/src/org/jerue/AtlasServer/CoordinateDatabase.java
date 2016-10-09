@@ -15,7 +15,8 @@ public class CoordinateDatabase {
 			return "empty";
 		String r = "";
 		for(int c = 0; c < coords.size(); c++){
-			r = r + coords.get(c).toString() + "~";
+			Coordinate coord = coords.get(c);
+			r = r + coord.toString() + "," + coord.getBitmap() + "~";
 		}
 		return r; //sends the entire database because yolo
 	}
