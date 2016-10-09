@@ -4,8 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.AsyncTask;
-import android.provider.Settings;
+
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -30,7 +29,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import android.content.Intent;
 import android.provider.MediaStore;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
@@ -70,9 +68,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(map);
         mapFragment.getMapAsync(this);
 
-        SetupZoomButtons();
-
-
         mDrawerList = (ListView)findViewById(R.id.navList);
         addDrawerItems();
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -96,29 +91,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private void SetupZoomButtons() {
-        ImageButton imgbtnZoom = (ImageButton) findViewById(R.id.zoomButton);
-        imgbtnZoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.zoomIn());
-            }
-        });
-
-        ImageButton imgbtnUnzoom = (ImageButton) findViewById(R.id.unzoomButton);
-        imgbtnUnzoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMap.animateCamera(CameraUpdateFactory.zoomOut());
-            }
-        });
-    }
-
     /*
     TODO: Add Documentation and make this contain menu items
      */
     private void addDrawerItems() {
-        String[] osArray = { "This", "is", "to", "be", "determined" };
+        String[] osArray = {"Local", "Friends Markers", "Attractions", "Restaurants", "Your Markers", "Settings",};
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
     }
