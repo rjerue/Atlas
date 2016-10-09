@@ -193,11 +193,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    public void refreshMapClick(View view){
+        
+    }
+
     public void cameraButtonClick(View view){
         if (this.hasPermissionInManifest(this, "android.permission.CAMERA"))
             dispatchTakePictureIntent();
         else{
-            System.out.println("poop");
+            //System.out.println("poop");
             dispatchTakePictureIntent();
         }
     }
